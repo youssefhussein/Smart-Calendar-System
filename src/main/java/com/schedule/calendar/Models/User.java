@@ -1,14 +1,7 @@
 package com.schedule.calendar.Models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-
-import java.util.Date;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -18,7 +11,6 @@ public class User {
     private String username;
     private String email;
     private String password;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserRole role;
