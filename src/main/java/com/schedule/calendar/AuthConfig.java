@@ -12,7 +12,7 @@ public class AuthConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(authorizeRequests ->{
-                    authorizeRequests.requestMatchers("/" , "/auth/**").permitAll();
+                    authorizeRequests.requestMatchers("/" , "/auth/**" , "/css/**" , "/js/**").permitAll();
                     authorizeRequests.anyRequest().authenticated();
                         })
                 .oauth2Login(httpSecurityOAuth2LoginConfigurer -> {
