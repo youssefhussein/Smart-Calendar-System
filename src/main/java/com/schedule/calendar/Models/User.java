@@ -8,12 +8,18 @@ import java.util.Objects;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+   
+    @Column(unique = true)
     private String username;
+
     private String email;
     private String password;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private UserRole role;
+    private UserRole role = UserRole.STUDENT;
 
     public User() {
     }
@@ -76,7 +82,13 @@ public class User {
         setRole(role);
         return this;
     }
+  public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
     @Override
     public boolean equals(Object o) {
         if (o == this)

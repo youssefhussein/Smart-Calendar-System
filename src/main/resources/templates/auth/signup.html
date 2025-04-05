@@ -13,22 +13,24 @@
 
     <div class="signup-container">
         <h2>Sign Up</h2>
-        <form th:action="@{/auth/signup}" method="post">
+        <form id="signupForm" th:action="@{/auth/signup}" method="post">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
+                <input type="text" id="username" name="username" >
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email" >
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+                <input type="password" id="password" name="password" >
             </div>
             <div class="error-message" th:if="${param.error}">
                 Sign-up failed. Please try again.
             </div>
+            <div id="client-error-message" class="error-message" style="display: none; color: red; margin-top: 10px;">
+              </div>
             <button type="submit" class="btn-signup">Sign Up</button>
         </form>
         <form action="/oauth2/authorization/google" method="GET" class="py-3">
@@ -43,4 +45,40 @@
     </div>
 
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const signupForm = document.getElementById('signupForm');
+      const errorMessage = document.getElementById('client-error-message');
+      
+      signupForm.addEventListener('submit', function(event) {
+        // Trim input values to avoid spaces being considered as valid input.
+        const username = document.getElementById('username').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
+        
+        // Basic email regular expression for validation.
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        // Check that all fields are filled.
+        if (username === '' || email === '' || password === '') {
+          event.preventDefault();
+          errorMessage.textContent = 'Please fill in all fields.';
+          errorMessage.style.display = 'block';
+          return;
+        }
+        
+        // Check if email is valid.
+        if (!emailRegex.test(email)) {
+          event.preventDefault();
+          errorMessage.textContent = 'Please enter a valid email address.';
+          errorMessage.style.display = 'block';
+          return;
+        }
+        
+        // If all validations pass, hide the error message.
+        errorMessage.style.display = 'none';
+      });
+    });
+  </script>
+
 </html>
