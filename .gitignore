@@ -32,4 +32,6 @@ build/
 ### VS Code ###
 .vscode/
 mycompose.yaml
+
 compose.yaml
+.env
