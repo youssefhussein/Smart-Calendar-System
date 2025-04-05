@@ -3,7 +3,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-
+.env
 ### STS ###
 .apt_generated
 .classpath
@@ -32,5 +32,6 @@ build/
 ### VS Code ###
 .vscode/
 mycompose.yaml
+
 compose.yaml
 .env
