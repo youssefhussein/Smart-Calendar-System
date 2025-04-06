@@ -30,7 +30,7 @@ public class UserController {
         String encodedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));
         user.setPassword(encodedPassword);
         this.userRepository.save(user);
-        return "Added";
+        return "calendar";
     }
 
     @GetMapping("/login")

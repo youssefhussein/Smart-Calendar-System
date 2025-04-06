@@ -1,20 +1,19 @@
 package com.schedule.calendar.Models;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-import jakarta.annotation.Generated;
+import java.util.Objects;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.util.Objects;
 
 @SuppressWarnings("unused")
 @Entity
 @Table(name = "tasks")
-
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,18 +21,21 @@ public class Task {
     private String taskName;
     private String taskDescription;
     private LocalDate TdueDate;
-    private boolean isCompleted; 
-
+    private boolean isCompleted;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId") 
+    private User user;
 
     public Task() {
     }
 
-    public Task(Long id, String taskName, String taskDescription, LocalDate TdueDate, boolean isCompleted) {
+    public Task(Long id, String taskName, String taskDescription, LocalDate TdueDate, boolean isCompleted,  User user) {
         this.id = id;
         this.taskName = taskName;
         this.taskDescription = taskDescription;
         this.TdueDate = TdueDate;
         this.isCompleted = isCompleted;
+        this.user= user;
     }
 
     public Long getId() {
@@ -44,6 +46,14 @@ public class Task {
         this.id = id;
     }
 
+    
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
     public String getTaskName() {
         return this.taskName;
     }
@@ -113,7 +123,9 @@ public class Task {
             return false;
         }
         Task task = (Task) o;
-        return Objects.equals(id, task.id) && Objects.equals(taskName, task.taskName) && Objects.equals(taskDescription, task.taskDescription) && Objects.equals(TdueDate, task.TdueDate) && isCompleted == task.isCompleted;
+        return Objects.equals(id, task.id) && Objects.equals(taskName, task.taskName)
+                && Objects.equals(taskDescription, task.taskDescription) && Objects.equals(TdueDate, task.TdueDate)
+                && isCompleted == task.isCompleted;
     }
 
     @Override
@@ -124,12 +136,16 @@ public class Task {
     @Override
     public String toString() {
         return "{" +
-            " id='" + getId() + "'" +
-            ", taskName='" + getTaskName() + "'" +
-            ", taskDescription='" + getTaskDescription() + "'" +
-            ", TdueDate='" + getTdueDate() + "'" +
-            ", isCompleted='" + isIsCompleted() + "'" +
-            "}";
+                " id='" + getId() + "'" +
+                ", taskName='" + getTaskName() + "'" +
+                ", taskDescription='" + getTaskDescription() + "'" +
+                ", TdueDate='" + getTdueDate() + "'" +
+                ", isCompleted='" + isIsCompleted() + "'" +
+                "}";
+    }
+
+    public void setCompleted(boolean isCompleted) {
+        this.isCompleted = isCompleted;
     }
 
 }

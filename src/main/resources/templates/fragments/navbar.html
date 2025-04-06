@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+   
+
+  <body>
+    <div th:fragment="navbar">
+        <nav class="navbar navbar-expand-lg sticky-top custom-navbar w-100" role="navigation">
+          <div class="container-fluid px-3 px-md-4">
+            <a class="navbar-brand fw-bold text-white" href="#">📅 Smart Calendar</a>
+      
+            <!-- Toggle button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav" aria-controls="navbarNav"
+                    aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+      
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Home</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+                     role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Views
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-dark shadow" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#">Monthly</a></li>
+                    <li><a class="dropdown-item" href="#">Weekly</a></li>
+                    <li><a class="dropdown-item" href="#">Daily</a></li>
+                  </ul>
+                </li>
+              </ul>
+      
+              <!-- Search Form -->
+              <form class="d-flex align-items-center" role="search">
+                <input class="form-control me-2 rounded-pill px-3" type="search"
+                       placeholder="Search Events..." aria-label="Search" id="searchInput">
+                <button class="btn btn-link p-0" type="submit" aria-label="Search">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#0dcaf0"
+                       class="bi bi-search" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398l3.85 3.85a1 
+                             1 0 0 0 1.415-1.414l-3.85-3.85zm-5.242 
+                             1.106a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z"/>
+                  </svg>
+                </button>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </div>
+      
+  </body>
+  
+</html>
