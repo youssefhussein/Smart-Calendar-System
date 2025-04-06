@@ -2,6 +2,8 @@ package com.schedule.calendar.Models;
 
 import java.time.LocalDate;
 import java.util.Objects;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -20,13 +22,14 @@ public class Task {
     private Long id;
     private String taskName;
     private String taskDescription;
-    private LocalDate TdueDate;
-    private boolean isCompleted;
+    private LocalDate TdueDate = LocalDate.now();
+    private boolean isCompleted=false;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId") 
+    @JoinColumn(name = "user_id") 
     private User user;
-
+    
     public Task() {
+        
     }
 
     public Task(Long id, String taskName, String taskDescription, LocalDate TdueDate, boolean isCompleted,  User user) {
@@ -37,7 +40,7 @@ public class Task {
         this.isCompleted = isCompleted;
         this.user= user;
     }
-
+  
     public Long getId() {
         return this.id;
     }

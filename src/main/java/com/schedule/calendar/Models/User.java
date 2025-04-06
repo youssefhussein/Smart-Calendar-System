@@ -11,11 +11,9 @@ public class User {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id" , unique = true , nullable = false)
     private int id;
-
-   
-
-  @Column(unique = true)
+    @Column(unique = true)
     private String username;
     private String email;
     private String password;

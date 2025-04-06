@@ -7,9 +7,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.schedule.calendar.Models.Task;
 import com.schedule.calendar.Repositories.TaskRepository;
+
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.PostMapping;
+
 
 @RestController
 @RequestMapping("/calendar")
@@ -21,23 +28,24 @@ public class CalendarController {
     }
 
     @GetMapping("")
-    public String calendar(Model model) {
+    public ModelAndView calendar() {
+        ModelAndView mav = new ModelAndView("calendar.html");
+
         List<Task> tasks = TaskRepository.findAll();
         if (tasks.isEmpty()) {
-            model.addAttribute("message", "No tasks found.");
+            mav.addObject("message", "No tasks found.");
         } else {
-            model.addAttribute("tasks", tasks);
+            mav.addObject("tasks", tasks);
         }
-        return "calendar";
-
+        return mav;
     }
-
-    public String createTask(@RequestBody Task task) {
+    @PostMapping("/create")
+    public String createTask(@RequestBody @Valid Task task) {
         TaskRepository.save(task);
         return "redirect:/calendar";
     }
-
-    public String updateTask(@RequestBody Task task, Model model) {
+    @PostMapping("/${id}/update")
+    public String updateTask(@RequestParam Integer taskid , @RequestBody @Valid Task task, Model model) {
         Optional<Task> existingTask = TaskRepository.findById(task.getId());
         if (existingTask.isEmpty()) {
             model.addAttribute("message", "Something went wrong");
@@ -51,7 +59,7 @@ public class CalendarController {
         TaskRepository.save(updatedTask);
         return "redirect:/calendar";
     }
-
+    @PostMapping("/delete")
     public String deleteTask(@RequestBody Long id) {
         TaskRepository.deleteById(id);
         return "redirect:/calendar";
