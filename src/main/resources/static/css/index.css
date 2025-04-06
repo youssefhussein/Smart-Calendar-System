@@ -1,0 +1,169 @@
+/*--------------------------------------------------------------
+      # Base Styles
+      --------------------------------------------------------------*/
+      body {
+        font-family: 'Montserrat', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f9fa;
+        color: #202124;
+      }
+
+      /*--------------------------------------------------------------
+      # Navbar
+      --------------------------------------------------------------*/
+      .navbar {
+        background-color: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        border-bottom: 1px solid #dadce0;
+      }
+      .navbar-brand {
+        font-weight: 700;
+        font-size: 1.4rem;
+        display: flex;
+        align-items: center;
+        color: #202124;
+      }
+      .navbar-brand img {
+        height: 40px;
+        margin-right: 0.5rem;
+      }
+      .navbar-nav .nav-link {
+        color: #5f6368;
+      }
+      .navbar-nav .nav-link:hover {
+        text-decoration: underline;
+      }
+
+      /*--------------------------------------------------------------
+      # Hero Section
+      --------------------------------------------------------------*/
+      .hero-section {
+        padding: 6rem 2rem;
+        display: flex;
+        align-items: center;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #ffffff 0%, #e3f2fd 100%);
+      }
+      .hero-text h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: #202124;
+      }
+      .hero-text p {
+        font-size: 1.25rem;
+        color: #5f6368;
+        margin-bottom: 2rem;
+        max-width: 500px;
+      }
+      .hero-text .btn-primary {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        border-radius: 50px;
+      }
+      .hero-images {
+        text-align: center;
+      }
+      .hero-img-main {
+        width: 80%;
+        max-width: 500px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      }
+
+      /*--------------------------------------------------------------
+      # Feature Section
+      --------------------------------------------------------------*/
+      .feature-section {
+        padding: 4rem 2rem;
+        background-color: #fff;
+      }
+      .feature-text h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: #202124;
+      }
+      .feature-text p {
+        font-size: 1.125rem;
+        color: #5f6368;
+      }
+      .feature-img {
+        width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      }
+
+      /*--------------------------------------------------------------
+      # Tasks Section
+      --------------------------------------------------------------*/
+      .tasks-section {
+        padding: 4rem 2rem;
+        background-color: #f8f9fa;
+        text-align: center;
+      }
+      .tasks-section h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        color: #202124;
+      }
+      .task-card {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+      }
+      .task-card h3 {
+        font-size: 1.25rem;
+        margin-top: 1rem;
+        color: #202124;
+      }
+      .task-card p {
+        color: #5f6368;
+      }
+
+      /*--------------------------------------------------------------
+      # Footer
+      --------------------------------------------------------------*/
+      .google-footer {
+        border-top: 1px solid #dadce0;
+        background-color: #f8f9fa;
+        color: #5f6368;
+        font-size: 14px;
+        padding: 1rem 0;
+      }
+      .google-footer a {
+        color: #5f6368;
+        text-decoration: none;
+      }
+      .google-footer a:hover {
+        text-decoration: underline;
+      }
+      .google-footer .language-selector {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+      .google-footer .material-icons {
+        font-size: 18px;
+        vertical-align: middle;
+      }
+
+      /*--------------------------------------------------------------
+      # Responsive Adjustments
+      --------------------------------------------------------------*/
+      @media (max-width: 992px) {
+        .hero-section {
+          flex-direction: column;
+          text-align: center;
+        }
+        .hero-images {
+          margin-top: 2rem;
+        }
+        .hero-img-main {
+          width: 100%;
+        }
+      }
