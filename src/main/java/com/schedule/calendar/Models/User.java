@@ -2,6 +2,7 @@ package com.schedule.calendar.Models;
 
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -18,7 +19,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserRole role = UserRole.STUDENT;
-    
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Task> tasks;
+
     public User() {
     }
     
@@ -60,7 +63,22 @@ public class User {
     public void setRole(UserRole role) {
         this.role = role;
     }
-    
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
+    public void addTask(Task task) {
+        this.tasks.add(task);
+        task.setUser(this); 
+    }
+
+    public void removeTask(Task task) {
+        this.tasks.remove(task);
+        task.setUser(null); 
+    }
     public User username(String username) {
         setUsername(username);
         return this;

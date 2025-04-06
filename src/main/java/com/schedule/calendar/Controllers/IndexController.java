@@ -10,9 +10,6 @@ public class IndexController {
     public ModelAndView index() {
         return new ModelAndView("index.html");
     }
-    @GetMapping("/calendar")
-    public ModelAndView calendarindex() {
-        return new ModelAndView("calendar.html");
-    }
+   
     
 }
