@@ -11,8 +11,11 @@ public class User {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    @Column(unique = true)
+    private int id;
+
+   
+
+  @Column(unique = true)
     private String username;
     private String email;
     private String password;
@@ -98,14 +101,15 @@ public class User {
         setRole(role);
         return this;
     }
-    
-    public Long getId() {
+  public int getId() {
         return id;
     }
+
+    public void setId(int id) {
+     this.id = id;
+    }    
     
-    public void setId(Long id) {
-        this.id = id;
-    }
+   
     
     @Override
     public boolean equals(Object o) {

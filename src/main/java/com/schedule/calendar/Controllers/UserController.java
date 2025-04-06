@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
 
 @Controller
 @RequestMapping("/auth")
@@ -17,13 +16,6 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("")
-    public ModelAndView getUsers() {
-        ModelAndView mav = new ModelAndView("list-users.html");
-        List<User> users = this.userRepository.findAll();
-        mav.addObject("users", users);
-        return mav;
-    }
 
     @GetMapping("/signup")
     public ModelAndView addUser() {
@@ -41,7 +33,6 @@ public class UserController {
         return "calendar";
     }
 
-    // 🔐 Login form
     @GetMapping("/login")
     public ModelAndView login() {
         ModelAndView mav = new ModelAndView("auth/login");
@@ -50,7 +41,6 @@ public class UserController {
         return mav;
     }
 
-    // 🔐 Check login credentials
     @PostMapping("/login")
     public ModelAndView loginCheck(@RequestParam("username") String username,
                              @RequestParam("password") String password) {
