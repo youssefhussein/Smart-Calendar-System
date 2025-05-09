@@ -3,5 +3,7 @@ package com.schedule.calendar.Models;
 public enum UserRole {
     STUDENT,
     EMPLOYEE,
-    ORGANIZATION
+    ORGANIZATION,
+    USER,
+    ADMIN
 }

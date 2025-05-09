@@ -47,7 +47,7 @@ public class CalendarController {
         updatedTask.setTaskName(task.getTaskName());
         updatedTask.setTaskDescription(task.getTaskDescription());
         updatedTask.setTdueDate(task.getTdueDate());
-        updatedTask.setCompleted(task.getIsCompleted());
+        updatedTask.setCompleted(task.isCompleted());
         TaskRepository.save(updatedTask);
         return "redirect:/calendar";
     }

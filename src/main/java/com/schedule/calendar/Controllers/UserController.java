@@ -4,9 +4,13 @@ import com.schedule.calendar.Models.User;
 import com.schedule.calendar.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Optional;
 
 
 @Controller
@@ -15,6 +19,8 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
     @GetMapping("/signup")
@@ -26,9 +32,10 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String saveUser(@ModelAttribute User user) {
-        String encodedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));
-        user.setPassword(encodedPassword);
+    public String saveUser(@RequestBody User user) {
+//        String encodedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));
+//        user.setPassword(encodedPassword);
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         this.userRepository.save(user);
         return "calendar";
     }
@@ -45,14 +52,14 @@ public class UserController {
     public ModelAndView loginCheck(@RequestParam("username") String username,
                              @RequestParam("password") String password) {
         System.out.println("Custom login controller reached ✅");
-    
-        User dbUser = this.userRepository.findByUsername(username);
-        if (dbUser == null) {
+
+        Optional<User>  dbUser = this.userRepository.findByUsername(username);
+        if (dbUser.isEmpty()) {
             System.out.println("User not found ❌");
             return new ModelAndView("auth/login");
         }
-    
-        Boolean isPasswordMatched = BCrypt.checkpw(password, dbUser.getPassword());
+
+        boolean isPasswordMatched = BCrypt.checkpw(password, dbUser.get().getPassword());
         if (isPasswordMatched) {
             System.out.println("Login successful 🚀");
             return new ModelAndView("calendar");
