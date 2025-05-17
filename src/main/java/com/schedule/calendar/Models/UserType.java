@@ -1,7 +1,8 @@
 package com.schedule.calendar.Models;
 
-public enum UserRole {
+public enum UserType {
+    DEFAULT,
     STUDENT,
     EMPLOYEE,
-    ORGANIZATION
+    ORGANIZATION,
 }

@@ -19,3 +19,7 @@ MacOS/Linux commands
 ## Tech stack:
 Frontend : htmx bootstrap jquery
 Backend : Spring-Boot 
+
+link to spring-boot docs cuz its hidden \
+https://spring.io/guides
+https://spring.io/projects/spring-boot
