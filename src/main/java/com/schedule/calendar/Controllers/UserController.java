@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 
-@Slf4j
 @Controller
 @RequestMapping("/auth")
 public class UserController {
@@ -35,10 +34,7 @@ public class UserController {
     }
     
     @PostMapping("/signup")
-    public String saveUser(@ModelAttribute @Valid  User user , HttpServletRequest httpRequest) {
-        log.info("Request: {}", httpRequest.getRequestURI());
-        log.info("Request: {}", httpRequest.getParameterMap());
-        log.info("Request: {}", httpRequest.getMethod());
+    public String saveUser(@ModelAttribute @Valid  User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setUserRole("USER");
         user.setUserType(UserType.DEFAULT);
