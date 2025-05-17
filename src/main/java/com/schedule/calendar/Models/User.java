@@ -20,9 +20,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserType userType = UserType.DEFAULT;
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private UserRole userRole = UserRole.USER;
+    private String userRole; // USER,ADMIN
     @Column(nullable = true)
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Task> tasks;

@@ -3,7 +3,7 @@ package com.schedule.calendar.Controllers;
 import com.schedule.calendar.Models.User;
 import com.schedule.calendar.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,10 +14,12 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-
+    
     @Autowired
     private UserRepository userRepository;
-
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    
     @GetMapping("/users")
     public ModelAndView listUsers() {
         List<User> users = userRepository.findAll();
@@ -25,7 +27,7 @@ public class AdminController {
         mav.addObject("users", users);
         return mav;
     }
-
+    
     @GetMapping("/users/new")
     public ModelAndView showNewUserForm() {
         ModelAndView mav = new ModelAndView("admin/user-form");
@@ -34,18 +36,18 @@ public class AdminController {
         mav.addObject("action", "create");
         return mav;
     }
-
+    
     @PostMapping("/users")
     public String createUser(@ModelAttribute User user) {
-
-        if(user.getPassword() != null && !user.getPassword().isEmpty()){
-            String encodedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));
+        
+        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+            String encodedPassword = passwordEncoder.encode(user.getPassword());
             user.setPassword(encodedPassword);
         }
         userRepository.save(user);
         return "redirect:/admin/users";
     }
-
+    
     @GetMapping("/users/edit/{id}")
     public ModelAndView showEditUserForm(@PathVariable("id") int id) {
         Optional<User> userOpt = userRepository.findById(id);
@@ -57,23 +59,20 @@ public class AdminController {
         }
         return new ModelAndView("redirect:/admin/users");
     }
-
+    
     @PostMapping("/users/edit")
     public String updateUser(@ModelAttribute User user) {
-
+        
         if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-            String encodedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));
+            String encodedPassword = passwordEncoder.encode(user.getPassword());
             user.setPassword(encodedPassword);
         } else {
-            User existingUser = userRepository.findById(user.getId()).orElse(null);
-            if (existingUser != null) {
-                user.setPassword(existingUser.getPassword());
-            }
+            userRepository.findById(user.getId()).ifPresent(existingUser -> user.setPassword(existingUser.getPassword()));
         }
         userRepository.save(user);
         return "redirect:/admin/users";
     }
-
+    
     @GetMapping("/users/delete/{id}")
     public String deleteUser(@PathVariable("id") int id) {
         userRepository.deleteById(id);
