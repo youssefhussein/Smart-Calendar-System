@@ -22,5 +22,4 @@ public class Assignment {
     private String assignmentDescription;
     private LocalDate AdueDate;
     private boolean isCompleted;
-    
 }

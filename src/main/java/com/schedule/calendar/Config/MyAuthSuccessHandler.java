@@ -9,7 +9,7 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 import java.io.IOException;
 
 public class MyAuthSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
-    
+   
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         boolean isAdmin = authentication.getAuthorities().stream()
