@@ -27,7 +27,7 @@ public class AuthConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> {
-                    authorizeRequests.requestMatchers("/", "/auth/**", "/css/**", "/js/**", "/fragments/**", "login/**", "logout/**", "auth/signup").permitAll();
+                    authorizeRequests.requestMatchers("/", "/auth/**", "/css/**", "/js/**", "/fragments/**", "/login/**", "/logout/**", "/auth/signup").permitAll();
                     authorizeRequests.requestMatchers("/admin/**").hasRole("ADMIN");
 //                    authorizeRequests.requestMatchers("/calendar/**").authenticated());
                     authorizeRequests.anyRequest().authenticated();
