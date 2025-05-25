@@ -1,91 +1,95 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"> <!-- Add Thymeleaf namespace -->
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Calendar</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/calendar.css">
-    <link rel="stylesheet" href="/css/navbar.css">
-   
+    <title>SmartCalendar - Calendar View</title>
+    <link rel="stylesheet" th:href="@{/css/calendar-style.css}"> <!-- Thymeleaf path -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div th:replace="fragments/navbar :: navbar"></div>
-
-
-<!-- Main Content -->
-<div class="container mt-4">
-    <h1>Smart Calendar</h1>
-    <div class="calendar-container">
-        <!-- Calendar Header -->
-        <div class="calendar-header">
-            <span th:text="${currentMonth} + ' ' + ${currentYear}"></span>
-            <div>
-                <button id="prevMonth" hx-get="@{/calendar/previous-month(year=${year}, month=${month})}" hx-target="#calendarContainer">❮</button>
-                <button id="nextMonth" hx-get="@{/calendar/next-month(year=${year}, month=${month})}" hx-target="#calendarContainer">❯</button>
+    <div class="dashboard-container">
+        <nav class="top-nav">
+            <div class="logo-container">
+                <i class="fas fa-calendar-alt logo-icon"></i>
+                <h1>SmartCalendar</h1>
             </div>
-        </div>
+            <div class="nav-tabs">
+                <a th:href="@{/calendar}" class="nav-tab active"> <!-- Thymeleaf path -->
+                    <i class="fas fa-calendar-days"></i> Calendar
+                </a>
+               
+            </div>
+            <button class="new-event-btn" id="newEventBtn">
+                <i class="fas fa-plus"></i> New Event
+            </button>
+        </nav>
 
-        <!-- Calendar Grid -->
-        <table class="calendar-grid">
-            <thead>
-                <tr>
-                    <th>Sun</th>
-                    <th>Mon</th>
-                    <th>Tue</th>
-                    <th>Wed</th>
-                    <th>Thu</th>
-                    <th>Fri</th>
-                    <th>Sat</th>
-                </tr>
-            </thead>
-            <tbody id="calendarBody">
-                <!-- Dynamically generated rows for each week -->
-                <tr th:each="week : ${weeks}">
-                    <td th:each="day : ${week}" th:classappend="${day.isToday ? 'today'}">
-                        <span th:text="${day.date}"></span>
-                        <div th:if="${day.events.size > 0}" class="events">
-                            <div th:each="event : ${day.events}" class="event"
-                                th:text="${event.title}">
-                                Event Title
-                            </div>
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <div class="left-column">
+                <section class="card calendar-widget">
+                    <div class="calendar-header">
+                        <h2 id="currentMonthYear">Month Year</h2>
+                        <div class="calendar-nav">
+                            <button class="nav-arrow" id="prevMonthBtn"><i class="fas fa-chevron-left"></i></button>
+                            <button class="nav-arrow" id="nextMonthBtn"><i class="fas fa-chevron-right"></i></button>
                         </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                    </div>
+                    <div class="calendar-grid-container" id="calendarGrid">
+                        <div class="calendar-day-header">Sun</div>
+                        <div class="calendar-day-header">Mon</div>
+                        <div class="calendar-day-header">Tue</div>
+                        <div class="calendar-day-header">Wed</div>
+                        <div class="calendar-day-header">Thu</div>
+                        <div class="calendar-day-header">Fri</div>
+                        <div class="calendar-day-header">Sat</div>
+                    </div>
+                </section>
+            </div>
+            <aside class="right-sidebar" th:replace="~{fragments/sidebar :: sidebar-content}"></aside>
+        </main>
     </div>
-</div>
 
-<!-- Scripts -->
+    <!-- New Event Modal -->
+    <div id="eventModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModalBtn">×</span>
+            <h2>Add New Event</h2>
+            <form id="eventForm">
+                <div>
+                    <label for="eventTitle">Event Title:</label>
+                    <input type="text" id="eventTitle" name="eventTitle" required>
+                </div>
+                <div>
+                    <label for="eventDate">Date:</label>
+                    <input type="date" id="eventDate" name="eventDate" required>
+                </div>
+                <div>
+                    <label for="eventTime">Time (optional):</label>
+                    <input type="time" id="eventTime" name="eventTime">
+                </div>
+                 <div>
+                    <label for="eventDescription">Description (optional):</label>
+                    <textarea id="eventDescription" name="eventDescription" rows="3"></textarea>
+                </div>
+                <div>
+                    <label for="eventColor">Category/Color:</label>
+                    <select id="eventColor" name="eventColor">
+                        <option value="event-blue">Team/Work (Blue)</option>
+                        <option value="event-purple">Project (Purple)</option>
+                        <option value="event-orange">Client (Orange)</option>
+                        <option value="event-green">Personal (Green)</option>
+                        <option value="event-red">Important (Red)</option>
+                    </select>
+                </div>
+                <button type="submit">Add Event</button>
+            </form>
+        </div>
+    </div>
+    <!-- Hidden input to carry Thymeleaf variable to JS if needed -->
+    <input type="hidden" id="openModalParam" th:value="${openModal}" />
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://unpkg.com/htmx.org@1.9.4"></script>
-
-<script>
-  window.addEventListener('scroll', function () {
-    const navbar = document.querySelector('.navbar');
-    if (window.scrollY > 50) {
-      navbar.classList.add('navbar-shrink');
-    } else {
-      navbar.classList.remove('navbar-shrink');
-    }
-  });
-
-  document.querySelectorAll('.nav-link').forEach(link => {
-    if (link.href === window.location.href && !link.classList.contains('dropdown-toggle')) {
-      link.classList.add('active');
-    }
-  });
-
-  document.querySelector("form").addEventListener("submit", function(e) {
-    e.preventDefault();
-    alert("Search functionality coming soon!");
-  });
-</script>
-
-
+    <script th:src="@{/js/calendar.js}"></script>
 </body>
 </html>

@@ -10,6 +10,9 @@ public class IndexController {
     public ModelAndView index() {
         return new ModelAndView("index.html");
     }
-   
+     @GetMapping("/events/all")
+    public ModelAndView allEventsPage() {
+        return new ModelAndView("all-events.html");
+    }
     
 }

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartCalendar - All Events</title>
+    <link rel="stylesheet" th:href="@{/css/calendar-style.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .all-events-container {
+            padding: var(--padding-standard);
+        }
+        .event-list-item {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        .event-list-item .event-color-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            flex-shrink: 0;
+            margin-top: 5px; /* Align with first line of text */
+        }
+        .event-list-details h4 {
+            margin: 0 0 5px 0;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        .event-list-details p {
+            margin: 0 0 3px 0;
+            font-size: 0.9em;
+            color: var(--text-light);
+        }
+        .event-list-details .description {
+            font-style: italic;
+            font-size: 0.85em;
+            margin-top: 5px;
+        }
+        .no-events {
+            text-align: center;
+            color: var(--text-light);
+            padding: 20px;
+            font-size: 1.1em;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        /* === Advanced All Events Page Styles === */
+.all-events-page-container { /* New class for the main container if needed, or style .main-content directly */
+    max-width: 900px; /* Control width for better readability */
+    margin: 0 auto;
+}
+
+.all-events-container h2 {
+    font-size: 1.8em;
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--secondary-color);
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+}
+
+.event-list-item {
+    background-color: #fff; /* Ensure white background */
+    border: 1px solid #e0e6ed;
+    border-left: 5px solid var(--event-grey); /* Default left border color */
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: flex-start; /* Align items to the top */
+    gap: 20px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.event-list-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Specific border colors based on event color class */
+.event-list-item.border-event-blue { border-left-color: var(--event-blue); }
+.event-list-item.border-event-purple { border-left-color: var(--event-purple); }
+.event-list-item.border-event-orange { border-left-color: var(--event-orange); }
+.event-list-item.border-event-green { border-left-color: var(--event-green); }
+.event-list-item.border-event-red { border-left-color: #e74c3c; } /* Add a red variable if you don't have one */
+.event-list-item.border-event-grey { border-left-color: #95a5a6; }
+
+
+.event-list-item .event-color-indicator {
+    /* We are using the left border now, so this might be redundant or used differently */
+    /* If you still want a dot: */
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 5px;
+    /* background-color is set by JS or CSS classes like .event-blue */
+}
+
+.event-list-details {
+    flex-grow: 1; /* Allow details to take remaining space */
+}
+
+.event-list-details h4 {
+    font-size: 1.25em;
+    margin: 0 0 8px 0;
+    color: var(--text-color);
+}
+
+.event-list-details p {
+    margin: 0 0 8px 0;
+    font-size: 0.95em;
+    color: var(--text-light);
+    line-height: 1.5;
+    display: flex; /* For aligning icons with text */
+    align-items: center;
+    gap: 8px; /* Space between icon and text */
+}
+.event-list-details p i.fas, .event-list-details p i.far {
+    color: var(--secondary-color); /* Icon color */
+    font-size: 1em; /* Control icon size relative to text */
+    width: 18px; /* Ensure consistent icon spacing */
+    text-align: center;
+}
+
+
+.event-list-details .description {
+    font-style: normal; /* Remove italic if not desired */
+    background-color: #f9f9f9;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    border-left: 3px solid #ddd;
+}
+
+.event-status {
+    font-weight: 500;
+}
+.event-status.completed {
+    color: #2ecc71; /* Green */
+}
+.event-status.pending {
+    color: #e67e22; /* Orange */
+}
+
+.no-events, .loading-events {
+    text-align: center;
+    color: var(--text-light);
+    padding: 40px 20px;
+    font-size: 1.2em;
+    background-color: #fff;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Re-use navigation (can be a fragment if you have one for just the top nav) -->
+        <nav class="top-nav">
+            <div class="logo-container">
+                <i class="fas fa-calendar-alt logo-icon"></i>
+                <h1>SmartCalendar</h1>
+            </div>
+            <div class="nav-tabs">
+                <a th:href="@{/calendar}" class="nav-tab">
+                    <i class="fas fa-calendar-days"></i> Calendar
+                </a>
+                <a th:href="@{/analytics}" class="nav-tab">
+                    <i class="fas fa-chart-line"></i> Analytics
+                </a>
+            </div>
+            <a th:href="@{/calendar(openModal=true)}" class="new-event-btn">
+                <i class="fas fa-plus"></i> New Event
+            </a>
+        </nav>
+
+        <main class="main-content">
+            <div class="left-column" style="flex: 1;"> <!-- Make left column take full width for this page -->
+                <section class="card all-events-container">
+                    <a th:href="@{/calendar}" class="back-link"><i class="fas fa-arrow-left"></i> Back to Calendar</a>
+                    <h2>All My Events</h2>
+                    <div id="allEventsList">
+                        <!-- Events will be loaded here by JavaScript -->
+                        <p class="loading-events">Loading events...</p>
+                    </div>
+                </section>
+            </div>
+            <!-- You can choose to include the sidebar or not on this page -->
+            <!-- <aside class="right-sidebar" th:replace="~{fragments/sidebar :: sidebar-content}"></aside> -->
+        </main>
+    </div>
+
+    <script th:src="@{/js/all-events.js}"></script>
+</body>
+</html>

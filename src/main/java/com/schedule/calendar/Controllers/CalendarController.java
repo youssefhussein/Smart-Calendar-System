@@ -8,8 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.schedule.calendar.Models.Task;
 import com.schedule.calendar.Repositories.TaskRepository;
+
+import jakarta.validation.constraints.Null;
 
 @RestController
 @RequestMapping("/calendar")
@@ -21,40 +25,19 @@ public class CalendarController {
     }
 
     @GetMapping("")
-    public String calendar(Model model) {
+    public ModelAndView calendar(Model model) {
         List<Task> tasks = TaskRepository.findAll();
+        ModelAndView mav = new ModelAndView("/calendar");
+
         if (tasks.isEmpty()) {
-            model.addAttribute("message", "No tasks found.");
+            mav.addObject("tasks", null);
         } else {
-            model.addAttribute("tasks", tasks);
+            mav.addObject("tasks", tasks);
         }
-        return "calendar";
+        return mav;
 
     }
+    
 
-    public String createTask(@RequestBody Task task) {
-        TaskRepository.save(task);
-        return "redirect:/calendar";
-    }
-
-    public String updateTask(@RequestBody Task task, Model model) {
-        Optional<Task> existingTask = TaskRepository.findById(task.getId());
-        if (existingTask.isEmpty()) {
-            model.addAttribute("message", "Something went wrong");
-            return "redirect:/calendar";
-        }
-        Task updatedTask = existingTask.get();
-        updatedTask.setTaskName(task.getTaskName());
-        updatedTask.setTaskDescription(task.getTaskDescription());
-        updatedTask.setTdueDate(task.getTdueDate());
-        updatedTask.setCompleted(task.isCompleted());
-        TaskRepository.save(updatedTask);
-        return "redirect:/calendar";
-    }
-
-    public String deleteTask(@RequestBody Long id) {
-        TaskRepository.deleteById(id);
-        return "redirect:/calendar";
-    }
-
+    
 }

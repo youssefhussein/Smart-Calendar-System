@@ -1,0 +1,760 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+/* Global Styles & Variables */
+:root {
+    --primary-color: #6a11cb; /* A purple similar to the image */
+    --secondary-color: #2575fc; /* A blue similar to the image */
+    --text-color: #333;
+    --text-light: #666;
+    --bg-color: #f4f7fa; /* Light grey background */
+    --card-bg: #fff;
+    --border-radius: 8px;
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --padding-standard: 20px;
+    --margin-standard: 20px;
+
+    /* Chart Colors */
+    --productive-color: #50e3c2; /* Greenish */
+    --meetings-color: #bd10e0;   /* Purple */
+    --personal-color: #f5a623;   /* Orange/Yellow */
+
+    /* Event Colors */
+    --event-blue: #4a90e2;
+    --event-purple: #bd10e0;
+    --event-orange: #f5a623;
+    --event-green: #50e3c2;
+}
+
+body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    margin: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.dashboard-container {
+    max-width: 100%; /* Allow full width for nav */
+    margin: 0 auto;
+}
+
+/* Navigation Bar */
+.top-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--card-bg);
+    padding: 15px var(--padding-standard);
+    border-bottom: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    color: var(--primary-color);
+}
+
+.logo-icon {
+    font-size: 1.8em;
+    margin-right: 10px;
+}
+
+.logo-container h1 {
+    font-size: 1.5em;
+    margin: 0;
+    font-weight: 600;
+}
+
+.nav-tabs {
+    display: flex;
+    gap: 10px;
+}
+
+.nav-tab {
+    padding: 10px 20px;
+    text-decoration: none;
+    color: var(--text-light);
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    transition: background-color 0.3s, color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.nav-tab i {
+    font-size: 0.9em;
+}
+
+.nav-tab:hover {
+    background-color: #f0f0f0;
+}
+
+.nav-tab.active {
+    background-color: var(--primary-color); /* Darker shade for active */
+    color: white;
+}
+.nav-tab.active i {
+    color: white;
+}
+
+
+.new-event-btn {
+    background-image: linear-gradient(to right, var(--secondary-color), var(--primary-color));
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.new-event-btn i {
+    font-size: 0.9em;
+}
+
+.new-event-btn:hover {
+    opacity: 0.9;
+}
+
+/* Main Content Area */
+.main-content {
+    display: flex;
+    padding: var(--padding-standard);
+    gap: var(--margin-standard);
+    max-width: 1400px; /* Max width for the content below nav */
+    margin: 0 auto; /* Center the content area */
+}
+
+.left-column {
+    flex: 3; /* Takes up more space */
+    display: flex;
+    flex-direction: column;
+    gap: var(--margin-standard);
+}
+
+.right-sidebar {
+    flex: 1; /* Takes up less space */
+    display: flex;
+    flex-direction: column;
+    gap: var(--margin-standard);
+}
+
+/* General Card Styling */
+.card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    padding: var(--padding-standard);
+    margin-bottom: 20px;
+}
+.card h2, .card h3 {
+    margin-top: 0;
+    color: var(--text-color);
+    font-weight: 600;
+    font-size: 1.2em;
+    margin-bottom: 15px;
+}
+.card h3 i {
+    margin-right: 8px;
+    color: var(--primary-color);
+}
+
+
+/* Summary Cards */
+.summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--margin-standard);
+}
+
+.summary-card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    padding: var(--padding-standard);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.card-icon-bg {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--icon-bg); /* Set via inline style */
+}
+.card-icon-bg i {
+    font-size: 1.5em;
+}
+
+.card-label {
+    font-size: 0.9em;
+    color: var(--text-light);
+    margin: 0 0 5px 0;
+}
+
+.card-value {
+    font-size: 1.5em;
+    font-weight: 600;
+    color: var(--text-color);
+    margin: 0;
+}
+
+/* Weekly Time Distribution */
+.chart-container {
+    margin-bottom: var(--margin-standard);
+}
+
+.day-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    gap: 10px;
+}
+
+.day-label {
+    flex-basis: 40px; /* Width for day label */
+    font-size: 0.9em;
+    color: var(--text-light);
+    text-align: right;
+}
+
+.bar-wrapper {
+    flex-grow: 1;
+    display: flex;
+    height: 20px; /* Height of the bar */
+    border-radius: 5px;
+    overflow: hidden; /* Important for rounded corners on stacked bars */
+    background-color: #e0e0e0; /* Fallback if bars don't fill */
+}
+
+.bar {
+    height: 100%;
+    transition: width 0.5s ease-in-out;
+}
+
+.bar.productive { background-color: var(--productive-color); }
+.bar.meetings { background-color: var(--meetings-color); }
+.bar.personal { background-color: var(--personal-color); }
+
+.day-hours {
+    flex-basis: 30px; /* Width for hours */
+    font-size: 0.9em;
+    color: var(--text-light);
+    text-align: left;
+}
+
+.chart-legend {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 15px;
+    font-size: 0.9em;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-light);
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+}
+.legend-color.productive { background-color: var(--productive-color); }
+.legend-color.meetings { background-color: var(--meetings-color); }
+.legend-color.personal { background-color: var(--personal-color); }
+
+/* Smart Insights */
+.smart-insights .insight-item {
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: var(--border-radius);
+    font-size: 0.95em;
+    position: relative; /* For the marker */
+    border-left: 4px solid transparent; /* Placeholder for colored border */
+}
+.smart-insights .insight-item:last-child {
+    margin-bottom: 0;
+}
+
+.insight-item.peak-productivity {
+    background-color: #e6f2ff; /* Light blue */
+    border-left-color: var(--event-blue);
+}
+.insight-item.meeting-optimization {
+    background-color: #e6f9f0; /* Light green */
+    border-left-color: var(--event-green);
+}
+.insight-item.work-life-balance {
+    background-color: #fceefc; /* Light purple */
+    border-left-color: var(--event-purple);
+}
+
+.insight-item strong {
+    color: var(--text-color);
+}
+
+/* Upcoming Events */
+.event-item {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f0f0f0;
+}
+.event-item:last-of-type {
+    margin-bottom: 0;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.event-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-top: 7px; /* Align with first line of text */
+    flex-shrink: 0;
+}
+.event-dot.team-standup { background-color: var(--event-blue); }
+.event-dot.project-review { background-color: var(--event-purple); }
+.event-dot.client-presentation { background-color: var(--event-orange); }
+.event-dot.gym-session { background-color: var(--event-green); }
+
+.event-title {
+    font-weight: 600;
+    margin: 0 0 5px 0;
+    color: var(--text-color);
+}
+
+.event-details {
+    font-size: 0.85em;
+    color: var(--text-light);
+    margin: 0 0 3px 0;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.event-details i {
+    font-size: 0.9em;
+}
+
+.event-tag {
+    font-size: 0.75em;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+    margin-left: 5px;
+}
+.event-tag.today {
+    background-color: #e6f2ff;
+    color: var(--event-blue);
+}
+.event-tag.tomorrow {
+    background-color: #fff8e1;
+    color: var(--event-orange);
+}
+
+.view-all-events {
+    display: block;
+    text-align: center;
+    margin-top: var(--margin-standard);
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    color: var(--text-light);
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+.view-all-events:hover {
+    background-color: #f0f0f0;
+}
+.view-all-events i {
+    margin-left: 5px;
+}
+
+/* Today's Overview */
+.overview-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    font-size: 0.95em;
+    color: var(--text-light);
+    border-bottom: 1px solid #f0f0f0;
+}
+.overview-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+.overview-item:first-child {
+    padding-top: 0;
+}
+
+.overview-value {
+    font-weight: 600;
+    color: var(--text-color);
+}
+.overview-value.green { color: var(--productive-color); }
+.overview-value.blue { color: var(--event-blue); }
+
+/* Media Queries for basic responsiveness (example) */
+@media (max-width: 1200px) {
+    .main-content {
+        flex-direction: column;
+    }
+    .right-sidebar {
+        flex: none; /* Stack vertically */
+        width: 100%;
+    }
+    .summary-cards {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .top-nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    .nav-tabs {
+        width: 100%;
+        justify-content: space-around;
+    }
+    .new-event-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    .summary-cards {
+        grid-template-columns: 1fr; /* Stack summary cards */
+    }
+    .day-row {
+        font-size: 0.9em; /* Adjust font size for smaller screens */
+    }
+    .day-label { flex-basis: 35px; }
+    .day-hours { flex-basis: 25px; }
+}
+
+/* ... (Keep all previous CSS from the Analytics page) ... */
+
+/* CALENDAR WIDGET STYLES */
+.calendar-widget {
+    padding: 0; /* Override default card padding for full-width header */
+    overflow: hidden; /* Ensure header gradient corners are clipped */
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px var(--padding-standard);
+    background-image: linear-gradient(to right, var(--secondary-color), var(--primary-color));
+    color: white;
+}
+
+.calendar-header h2 {
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: 600;
+    color: white; /* Override general card h2 color */
+}
+
+.calendar-nav {
+    display: flex;
+    gap: 10px;
+}
+
+.calendar-nav .nav-arrow {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.calendar-nav .nav-arrow:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.calendar-grid-container {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0px; /* No gap, borders will separate */
+    padding: var(--padding-standard);
+    padding-top: 15px; /* Less padding at the top after header */
+}
+
+.calendar-day-header {
+    text-align: center;
+    padding: 10px 0;
+    font-weight: 500;
+    color: var(--text-light);
+    font-size: 0.9em;
+    border-bottom: 1px solid #e0e0e0; /* Line below day names */
+    margin-bottom: 5px; /* Space before actual day cells */
+}
+
+.calendar-day {
+    border: 1px solid #e0e0e0;
+    min-height: 100px; /* Adjust as needed for content */
+    padding: 8px;
+    font-size: 0.85em;
+    position: relative; /* For positioning day number */
+    /* Remove margin-left and margin-top from default settings for grid items */
+    margin-left: -1px;
+    margin-top: -1px;
+}
+.calendar-day:nth-child(7n+1) { /* First column */
+    margin-left: 0;
+}
+.calendar-day:nth-child(-n+7) { /* First row of days */
+    margin-top: 0;
+}
+
+
+.calendar-day .day-number {
+    position: absolute;
+    top: 5px;
+    right: 8px;
+    font-size: 0.9em;
+    color: var(--text-light);
+}
+
+.calendar-day.other-month .day-number {
+    color: #ccc; /* Lighter color for days not in current month */
+}
+.calendar-day.other-month {
+    background-color: #fdfdfd; /* Slightly different bg for other month days */
+}
+
+
+/* Specific styling for the current week blue line */
+.calendar-day.current-week-active {
+    border-top: 3px solid var(--secondary-color) !important; /* Thicker blue top border */
+    position: relative;
+    z-index: 1; /* Ensure it's above adjacent borders */
+}
+.calendar-day.current-week {
+    border-top: 1px solid #e0e0e0; /* Default border for other days in current week focus */
+     /* Ensure it respects the active day's border */
+}
+/* Adjust left border of the second day in the highlighted week if needed */
+.calendar-day.current-week-active + .calendar-day.current-week {
+    border-left: 1px solid #e0e0e0; 
+    /*////////////////////////////////////*/
+}
+
+
+.event-lozenge {
+    font-size: 0.8em;
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: white;
+    margin-bottom: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.event-lozenge:last-child {
+    margin-bottom: 0;
+}
+
+.event-lozenge.event-blue { background-color: var(--event-blue); }
+.event-lozenge.event-purple { background-color: var(--event-purple); }
+.event-lozenge.event-green { background-color: var(--event-green); }
+.event-lozenge.event-orange { background-color: var(--event-orange); }
+
+
+/* Update "View all events" button style to match image more closely */
+.view-all-events {
+    display: block;
+    text-align: center;
+    margin-top: var(--margin-standard);
+    padding: 10px;
+    background-color: var(--card-bg); /* White background */
+    border: 1px solid var(--text-color); /* Black border */
+    color: var(--text-color); /* Black text */
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+.view-all-events:hover {
+    background-color: #f0f0f0; /* Light grey on hover */
+    border-color: #555;
+    color: #333;
+}
+.view-all-events i {
+    margin-left: 5px;
+}
+
+/* Small adjustments for nav-tab spacing if needed */
+.nav-tabs {
+    gap: 15px; /* Slight increase in gap if desired */
+}
+.nav-tab.active { /* Ensure the active calendar tab uses the dark bg */
+    background-color: #333b4f; /* Darker background for active tab */
+    color: white;
+}
+.nav-tab.active i {
+    color: white;
+}
+
+/* Ensure the main content area is centered and has a max-width for larger screens */
+/* This might already be in your existing CSS, but good to double-check */
+.main-content {
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ... (Keep all previous CSS) ... */
+
+/* MODAL STYLES */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.5); /* Black w/ opacity - overlay */
+    padding-top: 60px; /* Location of the box */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto; /* 5% from the top and centered */
+    padding: 25px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    max-width: 500px; /* Maximum width */
+    border-radius: var(--border-radius);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#eventForm div {
+    margin-bottom: 15px;
+}
+
+#eventForm label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: var(--text-light);
+}
+
+#eventForm input[type="text"],
+#eventForm input[type="date"],
+#eventForm input[type="time"],
+#eventForm select {
+    width: calc(100% - 22px); /* Full width minus padding */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    box-sizing: border-box; /* Important to include padding and border in the element's total width and height */
+}
+
+#eventForm button[type="submit"] {
+    background-image: linear-gradient(to right, var(--secondary-color), var(--primary-color));
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    transition: opacity 0.3s;
+}
+
+#eventForm button[type="submit"]:hover {
+    opacity: 0.9;
+}
+
+/* Calendar Day specific styling for today */
+.calendar-day.today .day-number {
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1; /* Adjust for better vertical centering */
+    padding: 0;
+}
+/* Ensure day number is not absolutely positioned when it's 'today' to use flex centering */
+.calendar-day.today .day-number {
+    position: static; /* Override absolute positioning for 'today' */
+    margin-left: auto; /* Push to the right within the flex context */
+}
+/* Adjust day cell padding and flex for today's number */
+.calendar-day.today {
+    display: flex; /* Use flex to align items */
+    flex-direction: column; /* Stack items vertically */
+    align-items: flex-end; /* Align number to the right */
+}
+
+
+/* Style for clickable calendar days */
+.calendar-day:not(.other-month) {
+    cursor: pointer;
+}
+.calendar-day:not(.other-month):hover {
+    background-color: #f9f9f9;
+}
+.event-grey {
+    background-color: #6c757d;
+    color: rgb(0, 0, 0);
+}
+.event-red {
+    background-color: #dc3545;
+    color: white;
+}
+.event-dot {
+    background-color: #007bff;
+    color: white;
+}
