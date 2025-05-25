@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="sidebar-content">
+        <section class="card upcoming-events">
+            <h3><i class="fas fa-calendar-check"></i> Upcoming Events</h3>
+            <div id="sidebarUpcomingEventsList">
+                <!-- Static items removed, will be populated by JS -->
+                <p class="loading-sidebar-events" style="text-align: center; color: var(--text-light); padding: 10px 0;">Loading events...</p>
+            </div>
+            <a th:href="@{/events/all}" class="view-all-events">View all events <i class="fas fa-arrow-right"></i></a>
+        </section>
+
+        <section class="card todays-overview">
+            <!-- ... (Today's Overview remains static for now or can also be made dynamic) ... -->
+            <h3><i class="fas fa-clipboard-list"></i> Today's Overview</h3>
+            <div class="overview-item">
+                <span>Events Today</span>
+                <span class="overview-value">3</span>
+            </div>
+            <div class="overview-item">
+                <span>Free Time</span>
+                <span class="overview-value green">4h 30m</span>
+            </div>
+            <div class="overview-item">
+                <span>Focus Time</span>
+                <span class="overview-value blue">2h 15m</span>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

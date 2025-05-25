@@ -22,9 +22,11 @@ public class Task {
     private Long id;
     private String taskName;
     private String taskDescription;
-    private LocalDate TdueDate;
+    private LocalDate dueDate; 
     private boolean isCompleted;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId") 
     private User user;
+
+
 }
