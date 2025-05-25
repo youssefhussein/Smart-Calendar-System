@@ -28,12 +28,5 @@ public class Task {
     @JoinColumn(name = "userId") 
     private User user;
 
-    // Update getter/setter
-    public LocalDate getDueDate() {
-        return dueDate;
-    }
-    
-    public void setDueDate(LocalDate dueDate) {
-        this.dueDate = dueDate;
-    }
+
 }
