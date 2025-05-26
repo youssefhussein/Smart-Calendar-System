@@ -10,4 +10,5 @@ import java.util.List;
 public interface TaskRepository extends JpaRepository<Task, Long> {
     List<Task> findByUserAndDueDateBetween(User user, LocalDate startDate, LocalDate endDate);  // Changed from tdueDate to dueDate
     List<Task> findByUserOrderByDueDateAsc(User user);
+    List<Task> findByUser(User currentUser);
 }
