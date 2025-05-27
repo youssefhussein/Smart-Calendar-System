@@ -4,6 +4,7 @@ import com.schedule.calendar.Models.Task;
 import com.schedule.calendar.Models.User;
 import com.schedule.calendar.Repositories.TaskRepository;
 import com.schedule.calendar.Repositories.UserRepository;
+import com.schedule.calendar.Services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 public class TaskController {
 
     @Autowired
-    private TaskRepository taskRepository;
+    private TaskService taskRepository;
 
     @Autowired
     private UserRepository userRepository;
