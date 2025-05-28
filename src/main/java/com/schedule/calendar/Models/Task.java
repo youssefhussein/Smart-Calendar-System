@@ -2,6 +2,7 @@ package com.schedule.calendar.Models;
 
 import java.time.LocalDate;
 import java.util.Objects;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -22,9 +23,10 @@ public class Task {
     private Long id;
     private String taskName;
     private String taskDescription;
-    private LocalDate TdueDate;
+    private LocalDate dueDate;
     private boolean isCompleted;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId") 
+    @JoinColumn(name = "user_id")
     private User user;
+   
 }
