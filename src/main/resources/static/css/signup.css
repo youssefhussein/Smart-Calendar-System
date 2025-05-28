@@ -65,6 +65,23 @@ body {
     border: 1px solid #bdaeff;
 }
 
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 16px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fefeff;
+    font-size: 14px;
+    transition: all 0.3s ease-in-out;
+}
+
+.form-group select option {
+    background: #2c2c2c;
+    color: #fefeff;
+}
+
 /* Signup button - styled like login */
 .btn-signup {
     width: 100%;
