@@ -17,10 +17,10 @@ import org.springframework.stereotype.Component;
 public class SecurityAspect {
     private final Logger logger = LoggerFactory.getLogger(SecurityAspect.class);
 
-    @Pointcut("execution(* com.schedule.calendar.controllers.*.*(..))")
+    @Pointcut("execution(* com.schedule.calendar.Controllers.*.*(..))")
     public void controllerLayer() {}
     
-    @Pointcut("execution(* com.schedule.calendar.services.*.*(..))")
+    @Pointcut("execution(* com.schedule.calendar.Services.*.*(..))")
     public void serviceLayer() {}
 
     @Before("controllerLayer() || serviceLayer()")

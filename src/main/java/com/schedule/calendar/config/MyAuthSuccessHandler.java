@@ -1,4 +1,4 @@
-package com.schedule.calendar.config;
+package com.schedule.calendar.Config;
 
 
 import jakarta.servlet.http.HttpServletRequest;
