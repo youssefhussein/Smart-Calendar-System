@@ -2,7 +2,6 @@ package com.schedule.calendar.Controllers;
 
 import com.schedule.calendar.Models.Task;
 import com.schedule.calendar.Models.User;
-import com.schedule.calendar.Repositories.TaskRepository;
 import com.schedule.calendar.Repositories.UserRepository;
 import com.schedule.calendar.Services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -28,7 +25,7 @@ import java.util.stream.Collectors;
 public class TaskController {
 
     @Autowired
-    private TaskService taskRepository;
+    private TaskService taskService;
 
     @Autowired
     private UserRepository userRepository;
@@ -93,7 +90,7 @@ public class TaskController {
         LocalDate startDate = yearMonth.atDay(1);
         LocalDate endDate = yearMonth.atEndOfMonth();
 
-        List<Task> tasks = taskRepository.findByUserAndDueDateBetween(currentUser, startDate, endDate);
+        List<Task> tasks = taskService.findByUserAndDueDateBetween(currentUser, startDate, endDate);
         List<TaskDTO> taskDTOs = tasks.stream().map(TaskDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok(taskDTOs);
     }
@@ -119,7 +116,7 @@ public class TaskController {
         newTask.setCompleted(false);
         newTask.setUser(currentUser);
        
-        Task savedTask = taskRepository.save(newTask);
+        Task savedTask = taskService.save(newTask);
         return ResponseEntity.status(HttpStatus.CREATED).body(new TaskDTO(savedTask));
     }
      @GetMapping("/all")
@@ -130,7 +127,7 @@ public class TaskController {
         }
 
         // Fetch all tasks for the user, ordered by due date ascending
-        List<Task> tasks = taskRepository.findByUserOrderByDueDateAsc(currentUser);
+        List<Task> tasks = taskService.findByUserOrderByDueDateAsc(currentUser);
         List<TaskDTO> taskDTOs = tasks.stream().map(TaskDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok(taskDTOs);
     }
