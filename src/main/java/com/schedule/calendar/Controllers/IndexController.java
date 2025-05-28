@@ -7,10 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class IndexController {
-    @GetMapping("")
-    public String index() {
-        return "index";
-    }
+   
      @GetMapping("/events/all")
     public String allEventsPage() {
         return "all-events";
