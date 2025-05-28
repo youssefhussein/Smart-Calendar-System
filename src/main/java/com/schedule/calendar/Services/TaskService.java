@@ -39,4 +39,10 @@ public class TaskService {
         RequestEntity<Map<String, User>> requestEntity = RequestEntity.post(url).body(requestBody);
         return restTemplate.exchange(requestEntity, new ParameterizedTypeReference<List<Task>>() {}).getBody();
     }
+    public List<Task> findAll() {
+        String url = baseUrl + "/all";
+        return restTemplate.exchange(url, HttpMethod.GET, null,
+                new ParameterizedTypeReference<List<Task>>() {
+                }).getBody();
+    }
 }
