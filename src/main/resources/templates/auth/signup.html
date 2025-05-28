@@ -23,12 +23,45 @@
         </div>
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" id="email"th:field="*{email}">
+            <input type="email" id="email" th:field="*{email}">
         </div>
         <div class="form-group">
             <label for="password">Password</label>
             <input type="password" id="password" th:field="*{password}">
         </div>
+        <div class="form-group">
+            <label for="userType">Account Type</label>
+            <select id="userType" th:field="*{userType}" class="form-control">
+                <option value="DEFAULT">Normal User</option>
+                <option value="ORGANIZATION">Organization</option>
+                <option value="STUDENT">Student</option>
+            </select>
+        </div>
+
+        <!-- Organization fields -->
+        <div class="form-group" id="orgNameGroup" style="display: none;">
+            <label for="organizationName">Organization Name</label>
+            <input type="text" id="organizationName" name="organizationName" class="form-control" required>
+            
+            <label for="organizationDescription">Organization Description</label>
+            <textarea id="organizationDescription" name="organizationDescription" class="form-control" rows="3" required></textarea>
+        </div>
+
+        <!-- Student fields -->
+        <div class="form-group" id="studentGroup" style="display: none;">
+            <label for="studentId">Student ID</label>
+            <input type="text" id="studentId" name="studentId" class="form-control">
+            
+            <label for="organizationId">Select Organization</label>
+            <select id="organizationId" name="organizationId" class="form-control" required>
+                <option value="">Select an organization</option>
+                <option th:each="org : ${organizations}" 
+                        th:value="${org.id}" 
+                        th:text="${org.name}">
+                </option>
+            </select>
+        </div>
+        
         <div class="error-message" th:if="${param.error}">
             Sign-up failed. Please try again.
         </div>
@@ -44,39 +77,36 @@
 
 </body>
 <script>
-    // document.addEventListener('DOMContentLoaded', function () {
-    //     const signupForm = document.getElementById('signupForm');
-    //     const errorMessage = document.getElementById('client-error-message');
-    //
-    //     signupForm.addEventListener('submit', function (event) {
-    //         // Trim input values to avoid spaces being considered as valid input.
-    //         const username = document.getElementById('username').value.trim();
-    //         const email = document.getElementById('email').value.trim();
-    //         const password = document.getElementById('password').value.trim();
-    //
-    //         // Basic email regular expression for validation.
-    //         // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    //
-    //         // Check that all fields are filled.
-    //         if (username === '' || email === '' || password === '') {
-    //             event.preventDefault();
-    //             errorMessage.textContent = 'Please fill in all fields.';
-    //             errorMessage.style.display = 'block';
-    //             return;
-    //         }
-    //
-    //         // // Check if email is valid.
-    //         // if (!emailRegex.test(email)) {
-    //         //     event.preventDefault();
-    //         //     errorMessage.textContent = 'Please enter a valid email address.';
-    //         //     errorMessage.style.display = 'block';
-    //         //     return;
-    //         // }
-    //
-    //         // If all validations pass, hide the error message.
-    //         errorMessage.style.display = 'none';
-    //     });
-    // });
+document.addEventListener('DOMContentLoaded', function() {
+    const userTypeSelect = document.getElementById('userType');
+    const orgNameGroup = document.getElementById('orgNameGroup');
+    const studentGroup = document.getElementById('studentGroup');
+    const organizationIdSelect = document.getElementById('organizationId');
+    const orgNameInput = document.getElementById('organizationName');
+    const orgDescInput = document.getElementById('organizationDescription');
+
+    userTypeSelect.addEventListener('change', function() {
+        // Hide all groups first
+        orgNameGroup.style.display = 'none';
+        studentGroup.style.display = 'none';
+        organizationIdSelect.required = false;
+        orgNameInput.required = false;
+        orgDescInput.required = false;
+
+        // Show relevant group based on selection
+        switch(this.value) {
+            case 'ORGANIZATION':
+                orgNameGroup.style.display = 'block';
+                orgNameInput.required = true;
+                orgDescInput.required = true;
+                break;
+            case 'STUDENT':
+                studentGroup.style.display = 'block';
+                organizationIdSelect.required = true;
+                break;
+        }
+    });
+});
 </script>
 
 </html>
