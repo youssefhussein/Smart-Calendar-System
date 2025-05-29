@@ -1,0 +1,78 @@
+services:
+  # MySQL Database Service
+  mysql_db:
+    image: mysql:9.2 # Use a specific version of MySQL
+    # Restart the container if it stops
+    restart: always
+    # Environment variables for MySQL configuration
+    environment:
+     - 'MYSQL_DATABASE=calendar'
+     - 'MYSQL_PASSWORD=secret'
+     - 'MYSQL_ROOT_PASSWORD=secret'
+     - 'MYSQL_USER=user'
+    # Map a volume to persist MySQL data
+    # This prevents data loss if the container is removed
+    volumes:
+      - mysql_data:/var/lib/mysql
+    # Expose port 3306 on the host to access MySQL from outside Docker (optional, but useful for local testing)
+    ports:
+      - "3306:3306"
+    # Assign this service to the custom network
+    networks:
+      - calendar_network
+
+  # Main calendar app
+  calendar_app:
+    # Build context: points to the directory containing the Dockerfile for app1
+    # Assuming your structure is ADVANCED/app1/Dockerfile
+    build:
+      context: ./ # Relative path from docker-compose.yml to app1's directory
+      dockerfile: Dockerfile # Name of the Dockerfile within the app1 directory
+    # Map host port 8081 to container port 8080 (default for Spring Boot)
+    ports:
+      - "8080:8080"
+    # Ensure mysql_db starts before this application
+    depends_on:
+      - mysql_db
+      - task_microservice
+    # Environment variables for Spring Boot to connect to MySQL
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/calendar?useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: secret
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update # Or create, validate, none, etc. based on your needs
+      SPRING_DATASOURCE_HIKARI_CONNECTION_TIMEOUT: 20000
+      SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE: 5
+    # Assign this service to the custom network
+    networks:
+      - calendar_network
+
+  # Second Spring Boot Application Service
+  task_microservice:
+    build:
+      context: ../calendar-task-service # Relative path from docker-compose.yml to app2's directory
+      dockerfile: Dockerfile # Name of the Dockerfile within the app2 directory
+    ports:
+      - "8070:8070"
+    depends_on:
+      - mysql_db
+    # Environment variables for Spring Boot to connect to MySQL
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/calendar?useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: secret
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update # Or create, validate, none, etc.
+      SPRING_DATASOURCE_HIKARI_CONNECTION_TIMEOUT: 20000
+      SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE: 5
+    # Assign this service to the custom network
+    networks:
+      - calendar_network
+
+# Define volumes for data persistence
+volumes:
+  mysql_data: # This volume will store MySQL data
+
+# Define a custom network for services to communicate
+networks:
+  calendar_network:
+    driver: bridge # Default driver creates a private internal network
