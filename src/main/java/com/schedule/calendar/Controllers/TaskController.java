@@ -2,6 +2,7 @@ package com.schedule.calendar.Controllers;
 
 import com.schedule.calendar.Models.Task;
 import com.schedule.calendar.Models.User;
+import com.schedule.calendar.Repositories.TaskRepository;
 import com.schedule.calendar.Repositories.UserRepository;
 import com.schedule.calendar.Services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,8 +90,8 @@ public class TaskController {
         YearMonth yearMonth = YearMonth.of(year, month);
         LocalDate startDate = yearMonth.atDay(1);
         LocalDate endDate = yearMonth.atEndOfMonth();
-
-        List<Task> tasks = taskService.findByUserAndDueDateBetween(currentUser, startDate, endDate);
+        Integer userId = currentUser.getId();
+        List<Task> tasks = taskService.findByUserAndDueDateBetween(userId, startDate, endDate);
         List<TaskDTO> taskDTOs = tasks.stream().map(TaskDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok(taskDTOs);
     }
@@ -116,7 +117,7 @@ public class TaskController {
         newTask.setCompleted(false);
         newTask.setUser(currentUser);
        
-        Task savedTask = taskService.save(newTask);
+        Task savedTask = taskService.save(newTask , currentUser.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(new TaskDTO(savedTask));
     }
      @GetMapping("/all")
@@ -127,7 +128,8 @@ public class TaskController {
         }
 
         // Fetch all tasks for the user, ordered by due date ascending
-        List<Task> tasks = taskService.findByUserOrderByDueDateAsc(currentUser);
+         Integer userId = currentUser.getId();
+        List<Task> tasks = taskService.findByUserOrderByDueDateAsc(userId);
         List<TaskDTO> taskDTOs = tasks.stream().map(TaskDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok(taskDTOs);
     }
