@@ -2,47 +2,33 @@ package com.schedule.calendar.Controllers;
 
 import com.schedule.calendar.Models.Task;
 import com.schedule.calendar.Models.User;
-import com.schedule.calendar.Repositories.TaskRepository;
 import com.schedule.calendar.Repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Controller;
 
 import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import com.schedule.calendar.Services.TaskService;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.schedule.calendar.Models.Task;
-import com.schedule.calendar.Repositories.TaskRepository;
-
-import jakarta.validation.constraints.Null;
-
 @RestController
 @RequestMapping("/calendar")
 public class CalendarController {
-    private final TaskRepository TaskRepository;
-private final UserRepository userRepository;
-    private final TaskRepository taskRepository;
+    private final TaskService taskService;
+    private final UserRepository userRepository;
     
-    public CalendarController(TaskRepository TaskRepository , UserRepository userRepository, TaskRepository taskRepository) {
-        this.TaskRepository = TaskRepository;
+    public CalendarController(TaskService TaskRepository , UserRepository userRepository) {
+        this.taskService = TaskRepository;
         this.userRepository = userRepository;
-        this.taskRepository = taskRepository;
     }
 
     @GetMapping("")
     public ModelAndView calendar(Model model) {
-        List<Task> tasks = TaskRepository.findAll();
+        List<Task> tasks = taskService.findAll();
         ModelAndView mav = new ModelAndView("/calendar");
 
         if (tasks.isEmpty()) {
@@ -50,7 +36,7 @@ private final UserRepository userRepository;
         } else {
             mav.addObject("tasks", tasks);
         }
-        model.addAttribute("viewType", "main"); // Example attribute
+        model.addAttribute("viewType", "main");
         
         return mav;
 
@@ -62,7 +48,7 @@ private final UserRepository userRepository;
         User currentUser = userRepository.findByUsername(principal.getName()).orElse(null);
         List<Task> tasks = Collections.emptyList();
         if (currentUser != null) {
-            tasks = taskRepository.findByUser(currentUser); // Or more specific query for monthly
+            tasks =currentUser.getTasks(); // Or more specific query for monthly
         }
         model.addAttribute("tasks", tasks.isEmpty() ? null : tasks);
         model.addAttribute("viewType", "Monthly");
@@ -76,7 +62,7 @@ private final UserRepository userRepository;
         User currentUser = userRepository.findByUsername(principal.getName()).orElse(null);
         List<Task> tasks = Collections.emptyList();
         if (currentUser != null) {
-            tasks = taskRepository.findByUser(currentUser); // Or more specific query for weekly
+            tasks =currentUser.getTasks(); // Or more specific query for weekly
         }
         model.addAttribute("tasks", tasks.isEmpty() ? null : tasks);
         model.addAttribute("viewType", "Weekly");
@@ -88,7 +74,7 @@ private final UserRepository userRepository;
         User currentUser = userRepository.findByUsername(principal.getName()).orElse(null);
         List<Task> tasks = Collections.emptyList();
         if (currentUser != null) {
-            tasks = taskRepository.findByUser(currentUser); // Or more specific query for daily
+            tasks = currentUser.getTasks(); // Or more specific query for daily
         }
         model.addAttribute("tasks", tasks.isEmpty() ? null : tasks);
         model.addAttribute("viewType", "Daily");
