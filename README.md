@@ -23,3 +23,7 @@ Backend : Spring-Boot
 link to spring-boot docs cuz its hidden \
 https://spring.io/guides
 https://spring.io/projects/spring-boot
+
+
+# Docker Compose setup
+need to have a parent folder that contains both this app and the task-microservice
