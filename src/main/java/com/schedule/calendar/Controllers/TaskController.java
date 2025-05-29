@@ -49,7 +49,7 @@ public class TaskController {
         public boolean isCompleted;
 
         public TaskDTO(Task task) {
-            this.id = task.getId();
+            this.id = task.getId() != null ? task.getId().longValue() : null;
             this.taskName = task.getTaskName();
             this.taskDescription = task.getTaskDescription(); // Map description
             this.tdueDate = task.getDueDate().toString();
