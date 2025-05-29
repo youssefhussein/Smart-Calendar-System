@@ -41,6 +41,8 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: secret
       SPRING_JPA_HIBERNATE_DDL_AUTO: update # Or create, validate, none, etc. based on your needs
+      SPRING_DATASOURCE_HIKARI_CONNECTION_TIMEOUT: 20000
+      SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE: 5
     # Assign this service to the custom network
     networks:
       - calendar_network
@@ -60,6 +62,8 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: secret
       SPRING_JPA_HIBERNATE_DDL_AUTO: update # Or create, validate, none, etc.
+      SPRING_DATASOURCE_HIKARI_CONNECTION_TIMEOUT: 20000
+      SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE: 5
     # Assign this service to the custom network
     networks:
       - calendar_network
