@@ -19,9 +19,9 @@ import jakarta.validation.constraints.Null;
 @RestController
 @RequestMapping("/calendar")
 public class CalendarController {
-    private final TaskService TaskRepository;
+    private final TaskRepository TaskRepository;
 
-    public CalendarController(TaskService TaskRepository) {
+    public CalendarController(TaskRepository TaskRepository) {
         this.TaskRepository = TaskRepository;
     }
 

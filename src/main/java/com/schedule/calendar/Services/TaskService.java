@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class TaskService {
@@ -21,26 +22,27 @@ public class TaskService {
         this.restTemplate = new RestTemplate(); // Initialize a new RestTemplate instance
     }
     
-    public Task save(Task newTask) {
-        String url = baseUrl + "/store"; // The endpoint URL for saving a task
+    public Task save(Task newTask , Integer userId) {
+        String url = baseUrl + "/store?userId=" + userId;
         return restTemplate.exchange(RequestEntity.post(url).body(newTask), Task.class).getBody();
     }
-    public List<Task> findByUserAndDueDateBetween(User currentUser, LocalDate startDate, LocalDate endDate) {
-        String url = baseUrl + "/findByUserAndDueDateBetween?userId=" + currentUser.getId() +
+    public List<Task> findByUserAndDueDateBetween(Integer userId, LocalDate startDate, LocalDate endDate) {
+        
+        String url = baseUrl + "/findByUserAndDueDateBetween?userId=" + userId +
                 "&startDate=" + startDate + "&endDate=" + endDate;
         return restTemplate.exchange(url, HttpMethod.GET, null,
                 new ParameterizedTypeReference<List<Task>>() {
                 }).getBody();
     }
-    public List<Task> findByUserOrderByDueDateAsc(User currentUser) {
-        String url = baseUrl + "/findByUserOrderByDueDateAsc";
-        Map<String, User> requestBody = new HashMap<>();
-        requestBody.put("user", currentUser);
-        RequestEntity<Map<String, User>> requestEntity = RequestEntity.post(url).body(requestBody);
-        return restTemplate.exchange(requestEntity, new ParameterizedTypeReference<List<Task>>() {}).getBody();
-    }
+
     public List<Task> findAll() {
         String url = baseUrl + "/all";
+        return restTemplate.exchange(url, HttpMethod.GET, null,
+                new ParameterizedTypeReference<List<Task>>() {
+                }).getBody();
+    }
+    public List<Task> findByUserOrderByDueDateAsc(Integer userId) {
+        String url = baseUrl + "/findByUserOrderByDueDateAsc?userId=" + userId;
         return restTemplate.exchange(url, HttpMethod.GET, null,
                 new ParameterizedTypeReference<List<Task>>() {
                 }).getBody();
