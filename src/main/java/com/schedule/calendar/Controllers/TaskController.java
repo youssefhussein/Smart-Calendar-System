@@ -4,6 +4,7 @@ import com.schedule.calendar.Models.Task;
 import com.schedule.calendar.Models.User;
 import com.schedule.calendar.Repositories.TaskRepository;
 import com.schedule.calendar.Repositories.UserRepository;
+import com.schedule.calendar.Services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,12 +12,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.YearMonth;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -24,7 +26,7 @@ import java.util.stream.Collectors;
 public class TaskController {
 
     @Autowired
-    private TaskRepository taskRepository;
+    private TaskService taskService;
 
     @Autowired
     private UserRepository userRepository;
@@ -88,8 +90,8 @@ public class TaskController {
         YearMonth yearMonth = YearMonth.of(year, month);
         LocalDate startDate = yearMonth.atDay(1);
         LocalDate endDate = yearMonth.atEndOfMonth();
-
-        List<Task> tasks = taskRepository.findByUserAndDueDateBetween(currentUser, startDate, endDate);
+        Integer userId = currentUser.getId();
+        List<Task> tasks = taskService.findByUserAndDueDateBetween(userId, startDate, endDate);
         List<TaskDTO> taskDTOs = tasks.stream().map(TaskDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok(taskDTOs);
     }
@@ -115,7 +117,7 @@ public class TaskController {
         newTask.setCompleted(false);
         newTask.setUser(currentUser);
        
-        Task savedTask = taskRepository.save(newTask);
+        Task savedTask = taskService.save(newTask , currentUser.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(new TaskDTO(savedTask));
     }
      @GetMapping("/all")
@@ -126,7 +128,8 @@ public class TaskController {
         }
 
         // Fetch all tasks for the user, ordered by due date ascending
-        List<Task> tasks = taskRepository.findByUserOrderByDueDateAsc(currentUser);
+         Integer userId = currentUser.getId();
+        List<Task> tasks = taskService.findByUserOrderByDueDateAsc(userId);
         List<TaskDTO> taskDTOs = tasks.stream().map(TaskDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok(taskDTOs);
     }

@@ -35,17 +35,58 @@
 
             <form id="signupForm" th:action="@{/auth/signup}" th:object="${user}" method="post">
                 <div class="form-group">
-                    <label for="usernameS">Username</label> <!-- Changed id to avoid conflict with login -->
-                    <input type="text" id="usernameS" th:field="*{username}" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="emailS">Email</label>
-                    <input type="email" id="emailS" th:field="*{email}" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="passwordS">Password</label>
-                    <input type="password" id="passwordS" th:field="*{password}" class="form-control" required>
-                </div>
+            <label for="username">Username</label>
+            <input type="text" id="username" th:field="*{username}">
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" th:field="*{email}">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" th:field="*{password}">
+        </div>
+        <div class="form-group">
+            <label for="userType">Account Type</label>
+            <select id="userType" th:field="*{userType}" class="form-control">
+                <option value="DEFAULT">Normal User</option>
+                <option value="ORGANIZATION">Organization</option>
+                <option value="STUDENT">Student</option>
+            </select>
+        </div>
+
+        <!-- Organization fields -->
+        <div class="form-group" id="orgNameGroup" style="display: none;">
+            <label for="organizationName">Organization Name</label>
+            <input type="text" id="organizationName" name="organizationName" class="form-control" required>
+
+            <label for="organizationDescription">Organization Description</label>
+            <textarea id="organizationDescription" name="organizationDescription" class="form-control" rows="3" required></textarea>
+        </div>
+
+        <!-- Student fields -->
+        <div class="form-group" id="studentGroup" style="display: none;">
+            <label for="studentId">Student ID</label>
+            <input type="text" id="studentId" name="studentId" class="form-control">
+
+            <label for="organizationId">Select Organization</label>
+            <select id="organizationId" name="organizationId" class="form-control" required>
+                <option value="">Select an organization</option>
+                <option th:each="org : ${organizations}"
+                        th:value="${org.id}"
+                        th:text="${org.name}">
+                </option>
+            </select>
+        </div>
+
+        <div class="error-message" th:if="${param.error}">
+            Sign-up failed. Please try again.
+        </div>
+        <div class="success-message" th:if="${param.registered}" style="color: green; margin-top: 10px;">
+            Registration successful! Please login.
+        </div>
+        <div id="client-error-message" class="error-message" style="display: none; color: red; margin-top: 10px;">
+        </div>
 
                 <!-- Client-side validation message placeholder -->
                 <div id="client-error-message" class="alert alert-danger" style="display: none;"></div>
@@ -62,27 +103,37 @@
     <div th:replace="~{fragments/navbar :: navbarScripts}"></div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const signupForm = document.getElementById('signupForm');
-            const clientErrorMessageDiv = document.getElementById('client-error-message');
+document.addEventListener('DOMContentLoaded', function() {
+    const userTypeSelect = document.getElementById('userType');
+    const orgNameGroup = document.getElementById('orgNameGroup');
+    const studentGroup = document.getElementById('studentGroup');
+    const organizationIdSelect = document.getElementById('organizationId');
+    const orgNameInput = document.getElementById('organizationName');
+    const orgDescInput = document.getElementById('organizationDescription');
 
-            if (signupForm && clientErrorMessageDiv) {
-                signupForm.addEventListener('submit', function (event) {
-                    const username = document.getElementById('usernameS').value.trim();
-                    const email = document.getElementById('emailS').value.trim();
-                    const password = document.getElementById('passwordS').value.trim();
+    userTypeSelect.addEventListener('change', function() {
+        // Hide all groups first
+        orgNameGroup.style.display = 'none';
+        studentGroup.style.display = 'none';
+        organizationIdSelect.required = false;
+        orgNameInput.required = false;
+        orgDescInput.required = false;
 
-                    if (username === '' || email === '' || password === '') {
-                        event.preventDefault();
-                        clientErrorMessageDiv.textContent = 'Please fill in all fields.';
-                        clientErrorMessageDiv.style.display = 'block';
-                        return;
-                    }
-                    clientErrorMessageDiv.style.display = 'none';
-                });
-            }
-        });
-    </script>
+        // Show relevant group based on selection
+        switch(this.value) {
+            case 'ORGANIZATION':
+                orgNameGroup.style.display = 'block';
+                orgNameInput.required = true;
+                orgDescInput.required = true;
+                break;
+            case 'STUDENT':
+                studentGroup.style.display = 'block';
+                organizationIdSelect.required = true;
+                break;
+        }
+    });
+});
+</script>
 
 </body>
 </html>
