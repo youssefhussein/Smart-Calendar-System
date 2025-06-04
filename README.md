@@ -1,4 +1,8 @@
 # Smart Calender System
+
+## Link to task microservice 
+https://github.com/youssefhussein/calendar-task-service
+
 ## Setup:
 MySQL v9.2 and Java 23\
 Windows commands
@@ -21,7 +25,7 @@ Frontend : htmx bootstrap jquery
 Backend : Spring-Boot 
 
 link to spring-boot docs cuz its hidden \
-https://spring.io/guides
+https://spring.io/guides \
 https://spring.io/projects/spring-boot
 
 
