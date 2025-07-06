@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 body {
     font-family: 'Inter', sans-serif;
@@ -10,7 +10,24 @@ body {
     margin: 0;
     color: #f5f5f7;
 }
-
+body.signup-page-body { /* Using a more specific class to avoid conflict if body styled globally */
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(145deg, #1f1534, #2d0055); /* Darker gradient */
+    margin: 0;
+    color: #f5f5f7;
+    /* The padding-top for the navbar is handled by the global main.css body rule */
+}
+.page-content-wrapper-signup {
+    display: flex;
+    flex-direction: column; /* Allows for messages above/below form if needed */
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 70px); /* Adjust 70px to match global body padding-top */
+    /* If navbar is truly 70px, this content starts below it. */
+    /* If not using fixed navbar, then min-height: 100vh; and it pushes down */
+    padding: 20px; /* Some padding around the content area */
+    box-sizing: border-box;
+}
 .signup-container {
     background: rgba(35, 27, 59, 0.75);
     backdrop-filter: blur(16px);
@@ -25,44 +42,51 @@ body {
 }
 
 .signup-container:hover {
-    box-shadow: 0 18px 45px rgba(160, 130, 255, 0.2);
+    box-shadow: 0 18px 45px rgba(160, 130, 255, 0.25);
+    transform: translateY(-3px); /* Subtle lift effect */
 }
 
 .signup-container h2 {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     text-align: center;
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 600;
     color: #ffffff;
+}
+
+.form-group { /* Added for consistency with Bootstrap-like structure */
+    margin-bottom: 18px;
 }
 
 .form-group label {
     display: block;
     margin-bottom: 6px;
     font-weight: 500;
+    font-size: 0.9rem;
     color: #e0d9ff;
 }
 
-.form-group input {
+.form-group input { /* Will apply to text, email, password inputs */
     width: 100%;
-    padding: 10px;
-    margin-bottom: 16px;
-    border: none;
+    padding: 12px 15px; /* More padding */
+    border: 1px solid transparent; /* Start transparent */
     border-radius: 8px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.08);
     color: #fefeff;
-    font-size: 14px;
+    font-size: 15px;
     transition: all 0.3s ease-in-out;
+    box-sizing: border-box;
 }
 
 .form-group input::placeholder {
-    color: #cfc1f8;
+    color: #aaa0d6;
 }
 
 .form-group input:focus {
     outline: none;
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid #bdaeff;
+    background: rgba(255, 255, 255, 0.12);
+    border-color: #bdaeff; /* Highlight color */
+    box-shadow: 0 0 0 2px rgba(189, 174, 255, 0.3); /* Subtle focus shadow */
 }
 
 .form-group select {
@@ -89,37 +113,36 @@ body {
     background: linear-gradient(90deg, #a46dff, #f8c169);
     color: #1a1a1a;
     font-weight: 700;
-    font-size: 15px;
+    font-size: 16px;
     border: none;
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 14px rgba(255, 205, 105, 0.25);
+    margin-top: 10px; /* Space above button */
 }
 
 .btn-signup:hover {
     background: linear-gradient(90deg, #be85ff, #ffd166);
     box-shadow: 0 6px 20px rgba(255, 205, 105, 0.5);
+    transform: translateY(-2px);
 }
 
-/* Google Signup Button - matches login */
-form[action="/oauth2/authorization/google"] .btn-signup {
-    margin-top: 12px;
-    background: transparent;
-    border: 1px solid #f8c169;
-    color: #f8c169;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    transition: all 0.3s ease;
-    font-weight: 600;
+.signup-container p { /* Style for "Already have an account?" text */
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9rem;
 }
 
-form[action="/oauth2/authorization/google"] .btn-signup:hover {
-    background: #f8c169;
-    color: #2d0055;
-    box-shadow: 0 6px 20px rgba(248, 193, 105, 0.4);
+.signup-container p a {
+    color: #f8c169; /* Link color to match button accent */
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.signup-container p a:hover {
+    text-decoration: underline;
+    color: #ffd166;
 }
 
 .error-message {

@@ -1,0 +1,111 @@
+/* General Body Styles & Navbar Offset */
+body {
+  margin: 0;
+  padding: 0;
+  padding-top: 70px; /* Default for fixed/sticky navbar. ADJUST THIS VALUE! */
+  font-family: 'Inter', sans-serif; /* Consistent font from signup.css */
+  /* You might want a general fallback background for pages not specifically styled */
+  /* background-color: #f8f9fa; */
+}
+
+/* Custom Navbar Styles */
+.custom-navbar {
+  background: rgba(30, 30, 30, 0.85); /* Default background */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: fixed; /* Using fixed for reliable top positioning */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1030; /* Standard Bootstrap z-index */
+  padding: 0.5rem 1rem; /* Adjust vertical padding as needed */
+  transition: padding-top 0.3s ease-in-out, padding-bottom 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.custom-navbar.navbar-shrink {
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  background: rgba(20, 20, 20, 0.95); /* Darker when shrunk */
+}
+
+.custom-navbar .navbar-brand {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.custom-navbar .nav-link {
+  color: #e0e0e0; /* Slightly softer white for links */
+  transition: all 0.2s ease;
+  padding: 0.5rem 1rem; /* From your original */
+  border-bottom: 2px solid transparent; /* From your original */
+}
+
+.custom-navbar .nav-link.active {
+  color: #0dcaf0;
+  border-bottom-color: #0dcaf0;
+}
+
+.custom-navbar .nav-link:hover {
+  color: #0dcaf0;
+}
+
+/* Navbar Toggler (Hamburger Icon) */
+.custom-navbar .navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.custom-navbar .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Dropdown Menu (Dark Theme) */
+.custom-navbar .dropdown-menu.dropdown-menu-dark {
+  background-color: rgba(35, 27, 59, 0.95); /* Match signup container feel */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem; /* Softer corners */
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.custom-navbar .dropdown-item {
+  color: #e0e0e0;
+}
+
+.custom-navbar .dropdown-item:hover,
+.custom-navbar .dropdown-item:focus {
+  color: #0dcaf0;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.custom-navbar .dropdown-divider {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Navbar Search Form */
+.custom-navbar .form-control { /* Targeting specifically within custom-navbar */
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50rem; /* For pill shape */
+}
+.custom-navbar .form-control::placeholder {
+    color: rgba(255,255,255,0.6);
+}
+
+.custom-navbar .form-control:focus {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: #0dcaf0;
+  box-shadow: 0 0 0 0.2rem rgba(13, 202, 240, 0.25);
+  color: #fff;
+}
+
+.custom-navbar .btn-link svg {
+  transition: transform 0.2s ease;
+  fill: #0dcaf0; /* Ensure SVG fill color is set */
+}
+
+.custom-navbar .btn-link:hover svg {
+  transform: scale(1.1);
+}
